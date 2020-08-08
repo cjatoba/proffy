@@ -28,7 +28,7 @@ function pageLanding(req, res) {
 }
 
 function pageStydy(req, res) {
-    return res.render("study.html")
+    return res.render("study.html", { proffys, title: "Hi from nunjucks" })
 }
 
 function pageGiveClasses(req, res) {
