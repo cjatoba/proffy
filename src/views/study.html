@@ -64,50 +64,35 @@
 			</div>
 		</header>
 		<main>
-			<h1>{{title}}</h1>
+			<!--
+				Estrutura do nunjucks para envio de da dados inicia com  %for % e termina com %endfor%
+				Utilizando o template engine para um proffy em todos os proffys
+			-->
+			{%for proffy in proffys %}
+				<article class="teacher-item">
+					<header>
+						<img 
+							src="{{proffy.avatar}}" 
+							alt="{{proffy.name}}">
+						<div>
+							<strong>{{proffy.name}}</strong>
+							<span>{{proffy.subject}}</span>
+						</div>
+					</header>
 
-			<article class="teacher-item">
-				<header>
-					<img 
-						src="https://avatars2.githubusercontent.com/u/2254731?s=460&u=0ba16a79456c2f250e7579cb388fa18c5c2d7d65&v=4" 
-						alt="Diego Fernandes">
-					<div>
-						<strong>Diego Fernandes</strong>
-						<span>Química</span>
-					</div>
-				</header>
+					<p>{{proffy.bio}}</p>
 
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ipsum magnam eos distinctio, veritatis minus id quis quaerat officiis rerum neque nulla cupiditate laborum sapiente, facilis debitis eum tempore atque?</p>
+					<footer>
+						<p>Preço/hora<strong>{{proffy.cost}}</strong>
+						</p>
+						<a href="https://api.whatsapp.com/send?1=pt_BR&phone=55{{proffy.whatsapp}}&text=Tenho interesse na sua aula de {{proffy.subject}} {{proffy.name}}" class="button" target="_blank">
+							<img src="/images/icons/whatsapp.svg" alt="Whatsapp">Entrar em contato
+						</a>
+					</footer>
+				</article>
+			{%endfor%}
 
-				<footer>
-					<p>Preço/hora<strong>R$ 20,00</strong>
-					</p>
-					<button type="button">
-						<img src="/images/icons/whatsapp.svg" alt="Whatsapp">Entrar em contato
-					</button>
-				</footer>
-			</article>
-			<article class="teacher-item">
-				<header>
-					<img 
-						src="https://avatars2.githubusercontent.com/u/2254731?s=460&u=0ba16a79456c2f250e7579cb388fa18c5c2d7d65&v=4" 
-						alt="Diego Fernandes">
-					<div>
-						<strong>Diego Fernandes</strong>
-						<span>Química</span>
-					</div>
-				</header>
-
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ipsum magnam eos distinctio, veritatis minus id quis quaerat officiis rerum neque nulla cupiditate laborum sapiente, facilis debitis eum tempore atque?</p>
-
-				<footer>
-					<p>Preço/hora<strong>R$ 20,00</strong>
-					</p>
-					<button type="button">
-						<img src="/images/icons/whatsapp.svg" alt="Whatsapp">Entrar em contato
-					</button>
-				</footer>
-			</article>
+			
 		</main>
 	</div>
 </body>

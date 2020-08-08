@@ -20,7 +20,19 @@ const proffys = [
         weekday: [1],
         time_from: [720],
         time_to: [1220]
+    },
+    {
+        name: "Clayton", 
+        avatar: "https://avatars0.githubusercontent.com/u/52887959?s=460&u=52a66156ddfcce7d54f7de2f684c3c7ef5e49ec5&v=4", 
+        whatsapp: "954785224", 
+        bio: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ipsum magnam eos distinctio, veritatis minus id quis quaerat officiis rerum neque nulla cupiditate laborum sapiente, facilis debitis eum tempore atque?", 
+        subject: "Química", 
+        cost: "30",
+        weekday: [1],
+        time_from: [720],
+        time_to: [1220]
     }
+    
 ]
 
 function pageLanding(req, res) {
@@ -28,7 +40,7 @@ function pageLanding(req, res) {
 }
 
 function pageStydy(req, res) {
-    return res.render("study.html", { proffys, title: "Hi from nunjucks" })
+    return res.render("study.html", { proffys })
 }
 
 function pageGiveClasses(req, res) {
