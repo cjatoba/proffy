@@ -39,7 +39,9 @@ const express = require('express')
 const server = express()
 
 server
+//Configurar arquivos estáticos (css, scripts, imagens)
 .use(express.static("public"))
+//rotas da aplicação
 .get("/", pageLanding)
 .get("/study", pageStydy)
 .get("/give-classes", pageGiveClasses)
