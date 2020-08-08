@@ -1,3 +1,4 @@
+//Dados
 const proffys = [
     {
         name: "Diego Fernandes", 
@@ -35,28 +36,78 @@ const proffys = [
     
 ]
 
+const subjects = [
+    "Artes",
+    "Biologia",
+    "Ciências",
+    "Educação física",
+    "Física",
+    "Geografia",
+    "História",
+    "Matemática",
+    "Português",
+    "Química",
+]
+
+const weekdays = [
+    "Domingo",
+    "Segunda-feira",
+    "Terça-feira",
+    "Quarta-feira",
+    "Quinta-feira",
+    "Sexta-feira",
+    "Sábado",
+]
+
+//funcionalidades
+
+function getSubject(subjectNumber) {
+    const position = +subjectNumber - 1;
+    return subjects[position];
+}
+
 function pageLanding(req, res) {
     return res.render("index.html")
 }
 
 function pageStydy(req, res) {
-    return res.render("study.html", { proffys })
+    const filters = req.query;
+    return res.render("study.html", { proffys, filters, subjects, weekdays })
 }
 
 function pageGiveClasses(req, res) {
-    return res.render("give-classes.html")
+    const data = req.query; 
+    
+    // Object.keys(data) transforma as chaves do objeto data em um array assim [name, avatar, whatsapp...]
+    const isNotEmpty = Object.keys(data).length > 0;
+
+    //Se tiver dados adicionar
+    if (isNotEmpty) {
+
+        data.subject = getSubject(data.subject);
+
+        //Adicionar data a lista de proffys
+        proffys.push(data)
+
+        return res.redirect("/study")
+    }
+    
+    //Caso não existam dados volta para a página give-classes
+    return res.render("give-classes.html", { subjects, weekdays })
 }
 
+//Servidor
 const express = require('express')
 const server = express()
 
-//Configurar o nunjucks
+//Configurar o nunjucks (template engine)
 const nunjucks = require('nunjucks')
 nunjucks.configure('src/views', {
     express: server,
     noCache: true,
 })
 
+//Configuração do servidor
 server
 //Configurar arquivos estáticos (css, scripts, imagens)
 .use(express.static("public"))

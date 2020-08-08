@@ -71,7 +71,7 @@
 .teacher-item header div span {
     font-size: 1.6rem;
     display: block; /* o margin-top só funciona no display block */
-    margin-top: 8rem;
+    margin-top: .8rem;
 }
 
 .teacher-item > p {
