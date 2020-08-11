@@ -1,18 +1,20 @@
 const Database = require('./database/db')
 
-const { subjects, weekdays, getSubject } = require('./utils/format')
+const { subjects, weekdays, getSubject, convertHoursToMinutes } = require('./utils/format')
 
 function pageLanding(req, res) {
     return res.render("index.html")
 }
 
-function pageStudy(req, res) {
+async function pageStudy(req, res) {
     const filters = req.query;
 
-    if (!filters.subject || !filters.weekday || filters.time) {
-
+    if (!filters.subject || !filters.weekday || !filters.time) {
         return res.render("study.html", { filters, subjects, weekdays })
     }
+
+    //Converter horas em minutos
+    const timeToMinutes = convertHoursToMinutes(filters.time)
 
     const query = `
         SELECT classes.*, proffys.*
@@ -23,37 +25,38 @@ function pageStudy(req, res) {
             FROM class_schedule
             WHERE class_schedule.class_id = classes.id
             AND class_schedule.weekday = ${filters.weekday}
-            AND class_schedule.time_from <= ${filters.time}
-            AND class_schedule.time_to > ${filters.time}
+            AND class_schedule.time_from <= ${timeToMinutes}
+            AND class_schedule.time_to > ${timeToMinutes}
         )
+        AND classes.subject = '${filters.subject}'
     `
 
+    //Caso haja erro na consulta do banco
+    try {
+        const db = await Database
+        const proffys = await db.all(query)
 
+        return res.render('study.html', { proffys, subjects, filters, weekdays })
+    } catch (error) {
+        console.log(error)
+    }
 }
 
-function pageGiveClasses(req, res) {
-    const data = req.query; 
-    
-    // Object.keys(data) transforma as chaves do objeto data em um array assim [name, avatar, whatsapp...]
-    const isNotEmpty = Object.keys(data).length > 0;
-
-    //Se tiver dados adicionar
-    if (isNotEmpty) {
-
-        data.subject = getSubject(data.subject);
-
-        //Adicionar data a lista de proffys
-        proffys.push(data)
-
-        return res.redirect("/study")
-    }
-    
-    //Caso não existam dados volta para a página give-classes
+function pageGiveClasses(req, res) {   
     return res.render("give-classes.html", { subjects, weekdays })
 }
 
-modules.exports = {
+function saveClasses (req, res) {
+    const createProffy = require("./database/createProffy")
+
+    const data = req.body; 
+
+    return res.redirect("/study")
+}
+
+module.exports = {
     pageLanding,
     pageStudy,
-    pageGiveClasses
+    pageGiveClasses,
+    saveClasses
 }
