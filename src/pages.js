@@ -36,8 +36,8 @@ async function pageStudy(req, res) {
         const db = await Database
         const proffys = await db.all(query)
 
-        proffys.map(() => {
-            proffys.subject= getSubject(proffys.subject)
+        proffys.map((proffy) => {
+            proffy.subject= getSubject(proffy.subject)
         })
 
         return res.render('study.html', { proffys, subjects, filters, weekdays })
@@ -56,7 +56,7 @@ async function saveClasses (req, res) {
     const data = req.body; 
 
     const proffyValue = {
-        name: re.body.name,
+        name: req.body.name,
         avatar: req.body.avatar,
         whatsapp: req.body.whatsapp,
         bio: req.body.bio
